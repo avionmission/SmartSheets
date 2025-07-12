@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Analysis() {
+export default function Visualisation() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>📊 Data Analysis Coming Soon</Text>
+      <Text style={styles.text}>📊 Data Visualisation Coming Soon</Text>
     </View>
   );
 }

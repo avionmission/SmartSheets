@@ -8,11 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/preview", methods=["POST"])
-def preview():
-    print("---Received preview request---")
-    print("form keys: ", request.form.keys())
-    print("file keys: ", request.files.keys())
-    
+def preview():    
     file = request.files.get("file")
     if not file:
         return jsonify({"error": "No file uploaded"}), 400
@@ -29,7 +25,7 @@ def preview():
         # Clean up the temporary file
         os.unlink(tmp_file_path)
         
-        preview_data = df.head(10).to_dict(orient="records")
+        preview_data = df.head(50).to_dict(orient="records")
         
         print(f"Successfully processed file with {len(df)} rows and {len(df.columns)} columns")
         
