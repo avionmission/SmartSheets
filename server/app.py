@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -6,6 +6,7 @@ import tempfile
 
 app = Flask(__name__)
 CORS(app)
+app.secret_key='abcdef98765'
 
 @app.route("/preview", methods=["POST"])
 def preview():    
@@ -21,6 +22,9 @@ def preview():
         
         # Read the Excel file from the temporary file
         df = pd.read_excel(tmp_file_path)
+
+        # Store the DataFrame in the sessions
+        session['df_csv'] = df.to_csv(index=False)
         
         # Clean up the temporary file
         os.unlink(tmp_file_path)
