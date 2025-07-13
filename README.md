@@ -12,15 +12,16 @@ pip install -r requirements.txt
 ```
 
 ## 2. Client App
+
+Update API URL in `client/.env`:
+``
+API_BASE_URL='http://[YOUR_IP_ADDRESS]:5000'
+```
+
 Run:
 ```bash
 cd client
 npx expo start
-```
-
-In line 53 of `pages/Upload.js` modify to add your ip address:
-```js
-const res = await axios.post("http://[YOUR_IP_ADDRESS]//preview", formData, {
 ```
 
 Make sure your device has Expo Go app installed. Scan the QR in the cli to run the app.
