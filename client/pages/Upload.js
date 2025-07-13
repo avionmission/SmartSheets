@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, ScrollView, Modal, ActivityIndicator, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
-import { ProgressBar, Portal, Provider as PaperProvider } from 'react-native-paper';
+import { ProgressBar, Portal, Provider as PaperProvider, MD3DarkTheme, useTheme } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker'
 import axios from 'axios';
+import {API_BASE_URL} from '@env'
 import { Table, Row, Rows } from 'react-native-table-component';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -51,12 +52,13 @@ export default function Upload() {
                 });
 
                 console.log("Sending request to server...");
+                console.log(API_BASE_URL);
 
-                const res = await axios.post("http://[YOUR_IP_ADDR]:5000//preview", formData, {
+                const res = await axios.post(`${API_BASE_URL}/preview`, formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
-                console.log("Server response:", res.data);
+                console.log("Server response (columns): ", res.data.columns);
                 setData(res.data);
             } else {
                 console.log("File selection cancelled");
@@ -66,53 +68,105 @@ export default function Upload() {
         }
     };
 
-    
+    const theme = useTheme;
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingStep, setLoadingStep] = useState('');
+
+    const handlePress = () => {
+        setIsLoading(true);
+
+        const steps = [
+            'Removing completely empty rows and columns',
+            'Parsing dates and fixing formats',
+            'Handling missing values',
+            'Inferring and correcting data types',
+            'Finalizing cleaned dataset',
+        ];
+
+        const totalDuration = 10000; // 10 seconds
+        const delayPerStep = totalDuration / steps.length; // 2000ms per step
+
+        // Set the first step immediately
+        setLoadingStep(`1/${steps.length} ${steps[0]}`);
+
+        // Schedule the remaining steps using a loop
+        for (let i = 1; i < steps.length; i++) {
+            setTimeout(() => {
+                setLoadingStep(`${i + 1}/${steps.length} ${steps[i]}`);
+                // No setProgress call here as it's not needed
+            }, delayPerStep * i); // Calculate delay based on step index
+        }
+
+        // Schedule to hide the loading modal after the total duration
+        setTimeout(() => {
+            setIsLoading(false);
+            setLoadingStep(''); // Clear the step text
+        }, totalDuration);
+    };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <PaperProvider theme={MD3DarkTheme}>
+            <SafeAreaView style={styles.container}>
 
-            <StatusBar style="light" />
+                <StatusBar style="light" />
 
-            {!data && (<View style={styles.uploadContainer}>
-                <Text style={styles.uploadPrompt}>Upload your data to perform Analysis: </Text>
-                <TouchableOpacity style={styles.uploadButton} onPress={() => pickFile(setData)}>
-                    <Text style={styles.uploadButtonText}>Upload Excel File</Text>
-                </TouchableOpacity>
-            </View>)}
+                {!data && (<View style={styles.uploadContainer}>
+                    <Text style={styles.uploadPrompt}>Upload your data to perform Analysis: </Text>
+                    <TouchableOpacity style={styles.uploadButton} onPress={() => pickFile(setData)}>
+                        <Text style={styles.uploadButtonText}>Upload Excel File</Text>
+                    </TouchableOpacity>
+                </View>)}
 
-            {data && (<View>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-                    <View style={styles.tableWrapper}>
-                        <Table borderStyle={styles.tableBorder}>
-                            <Row
-                                data={tableHead}
-                                style={styles.head}
-                                textStyle={styles.headText}
-                                widthArr={tableHead.map(() => styles.cell.width)}
-                            />
-                        </Table>
-                        <ScrollView style={styles.tableContainer}>
+                {data && (<View>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+                        <View style={styles.tableWrapper}>
                             <Table borderStyle={styles.tableBorder}>
-                                <Rows
-                                    data={tableData}
-                                    textStyle={styles.text}
+                                <Row
+                                    data={tableHead}
+                                    style={styles.head}
+                                    textStyle={styles.headText}
                                     widthArr={tableHead.map(() => styles.cell.width)}
                                 />
                             </Table>
-                        </ScrollView>
-                    </View>
-                </ScrollView>
-                {/* FAB : Data Cleaning */}
-                <TouchableOpacity
-                    style={styles.fab}
-                    onPress={handlePress}
-                    activeOpacity={0.7} // Reduce opacity slightly on press
-                >
-                    <MaterialCommunityIcons name="broom" size={32} color="#0b4738" />
-                </TouchableOpacity>
-            </View>
-            )}
-        </SafeAreaView>
+                            <ScrollView style={styles.tableContainer}>
+                                <Table borderStyle={styles.tableBorder}>
+                                    <Rows
+                                        data={tableData}
+                                        textStyle={styles.text}
+                                        widthArr={tableHead.map(() => styles.cell.width)}
+                                    />
+                                </Table>
+                            </ScrollView>
+                        </View>
+                    </ScrollView>
+                    {/* FAB : Data Cleaning */}
+                    <TouchableOpacity
+                        style={styles.fab}
+                        onPress={handlePress}
+                        activeOpacity={0.7} // Reduce opacity slightly on press
+                    >
+                        <MaterialCommunityIcons name="broom" size={32} color="#0b4738" />
+                    </TouchableOpacity>
+                </View>
+                )}
+
+                <Portal>
+                    <Modal
+                        visible={isLoading}
+                        transparent={true}
+                        animationType="fade"
+                        onRequestClose={() => { /* optional */ }}
+                    >
+                        <View style={styles.modalOverlay}>
+                            <View style={styles.loadingContainer}>
+                                <ActivityIndicator size="large" color="#1DCD9F" />
+                                <Text style={styles.loadingText}>{loadingStep}</Text>
+                            </View>
+                        </View>
+                    </Modal>
+                </Portal>
+            </SafeAreaView>
+        </PaperProvider>
     );
 }
 
@@ -201,5 +255,34 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    loadingContainer: {
+        width: 300,
+        height: 140,
+        backgroundColor: '#2b2b2b',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 200,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    loadingText: {
+        marginTop: 15,
+        fontSize: 15,
+        color: 'white',
+        textAlign:'center',
+        fontFamily: 'sans-serif-light',
+        marginBottom: 10,
     },
 });
