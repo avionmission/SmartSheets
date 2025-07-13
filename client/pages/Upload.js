@@ -4,7 +4,7 @@ import { Button, ScrollView, Modal, ActivityIndicator, StyleSheet, Text, View, T
 import { ProgressBar, Portal, Provider as PaperProvider, MD3DarkTheme, useTheme } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker'
 import axios from 'axios';
-import {API_BASE_URL} from '@env'
+import { API_BASE_URL } from '@env'
 import { Table, Row, Rows } from 'react-native-table-component';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -68,6 +68,28 @@ export default function Upload() {
         }
     };
 
+    const handleCleanData = async (setData) => {
+        try {
+            console.log("Starting data cleaning request...");
+
+            const response = await axios.get(`${API_BASE_URL}/clean`);
+
+            if (response.data && response.data.preview) {
+                console.log("Data cleaning complete:", response.data.columns);
+                setData({
+                    columns: response.data.columns || [],
+                    preview: response.data.preview,
+                });
+            } else {
+                Alert.alert("Cleaning failed", "Unexpected response from server.");
+                console.error("Unexpected response:", response.data);
+            }
+        } catch (error) {
+            console.error("Error cleaning data:", error);
+            Alert.alert("Error", "Failed to clean data. Is the server running?");
+        }
+    };
+
     const theme = useTheme;
     const [isLoading, setIsLoading] = useState(false);
     const [loadingStep, setLoadingStep] = useState('');
@@ -76,7 +98,7 @@ export default function Upload() {
         setIsLoading(true);
 
         const steps = [
-            'Removing completely empty rows and columns',
+            'Removing empty rows and columns',
             'Parsing dates and fixing formats',
             'Handling missing values',
             'Inferring and correcting data types',
@@ -88,6 +110,9 @@ export default function Upload() {
 
         // Set the first step immediately
         setLoadingStep(`1/${steps.length} ${steps[0]}`);
+
+        // Background cleaning process
+        handleCleanData(setData); 
 
         // Schedule the remaining steps using a loop
         for (let i = 1; i < steps.length; i++) {
@@ -281,7 +306,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         fontSize: 15,
         color: 'white',
-        textAlign:'center',
+        textAlign: 'center',
         fontFamily: 'sans-serif-light',
         marginBottom: 10,
     },
