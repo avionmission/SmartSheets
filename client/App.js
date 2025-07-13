@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Analysis from './pages/Analysis';
 import Visualisation from './pages/Visualisation';
 import Upload from './pages/Upload';
+import { FadeIn } from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -15,7 +16,7 @@ function MainTabs() {
       initialRouteName="Upload"
       screenOptions={{
         headerShown: true,
-        tabBarStyle: { backgroundColor: '#222'},
+        tabBarStyle: { backgroundColor: '#222', marginBottom: 25},
         tabBarActiveTintColor: '#1DCD9F',
         tabBarInactiveTintColor: '#888',
         tabBarLabelStyle: { fontWeight: 'bold', fontSize: 12, margin: 5 },
@@ -26,10 +27,10 @@ function MainTabs() {
         headerTitleStyle: {
           fontSize: 18,
           paddingVertical: 8,
-        },
+        }, 
       }}
     >
-      <Tab.Screen name ="Upload" component={Upload} options={{title:"📣  SmartSheets", tabBarLabel: 'Upload', tabBarIcon: ({color, size}) => (<Ionicons name="attach" size={size} color={color}/>)}}/>
+      <Tab.Screen name ="Upload" component={Upload} options={{title:"❇️  SmartSheets", tabBarLabel: 'Upload', tabBarIcon: ({color, size}) => (<Ionicons name="attach" size={size} color={color}/>)}}/>
       <Tab.Screen name="Data Analysis" component={Analysis} options={{tabBarIcon: ({color, size}) => (<Ionicons name="analytics" size={size} color={color}/>)}}/>
       <Tab.Screen name="Data Visualisation" component={Visualisation} options={{tabBarIcon: ({color, size}) => (<Ionicons name="bar-chart-outline" size={size} color={color}/>)}}/>
     </Tab.Navigator>
