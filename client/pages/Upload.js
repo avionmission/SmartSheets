@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 12,
         paddingTop: 15,
-        backgroundColor: '#000000',
+        backgroundColor: '#171717',
     },
     tableWrapper: {
         flexDirection: 'column',

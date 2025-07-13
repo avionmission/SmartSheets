@@ -11,7 +11,7 @@ export default function Visualisation() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#171717',
     justifyContent: 'center',
     alignItems: 'center',
   },

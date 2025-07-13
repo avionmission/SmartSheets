@@ -16,7 +16,7 @@ function MainTabs() {
       initialRouteName="Upload"
       screenOptions={{
         headerShown: true,
-        tabBarStyle: { backgroundColor: '#222', marginBottom: 25},
+        tabBarStyle: { backgroundColor: '#222', marginBottom: 25, borderColor: '#1dcd9f', paddingTop: 5},
         tabBarActiveTintColor: '#1DCD9F',
         tabBarInactiveTintColor: '#888',
         tabBarLabelStyle: { fontWeight: 'bold', fontSize: 12, margin: 5 },
@@ -27,12 +27,13 @@ function MainTabs() {
         headerTitleStyle: {
           fontSize: 18,
           paddingVertical: 8,
-        }, 
+        },
+        
       }}
     >
-      <Tab.Screen name ="Upload" component={Upload} options={{title:"❇️  SmartSheets", tabBarLabel: 'Upload', tabBarIcon: ({color, size}) => (<Ionicons name="attach" size={size} color={color}/>)}}/>
-      <Tab.Screen name="Data Analysis" component={Analysis} options={{tabBarIcon: ({color, size}) => (<Ionicons name="analytics" size={size} color={color}/>)}}/>
-      <Tab.Screen name="Data Visualisation" component={Visualisation} options={{tabBarIcon: ({color, size}) => (<Ionicons name="bar-chart-outline" size={size} color={color}/>)}}/>
+      <Tab.Screen name ="Upload" component={Upload} options={{title:"❇️  𝙎𝙢𝙖𝙧𝙩𝙎𝙝𝙚𝙚𝙩𝙨", tabBarLabel: 'Upload', tabBarIcon: ({color, size}) => (<Ionicons name="attach" size={size} color={color}/>)}}/>
+      <Tab.Screen name="Data Analysis" component={Analysis} options={{title:"❇️  𝙎𝙢𝙖𝙧𝙩𝙎𝙝𝙚𝙚𝙩𝙨", tabBarLabel: 'Analyse', tabBarIcon: ({color, size}) => (<Ionicons name="analytics" size={size} color={color}/>)}}/>
+      <Tab.Screen name="Data Visualisation" component={Visualisation} options={{title:"❇️  𝙎𝙢𝙖𝙧𝙩𝙎𝙝𝙚𝙚𝙩𝙨", tabBarLabel: 'Visualisation', tabBarIcon: ({color, size}) => (<Ionicons name="bar-chart-outline" size={size} color={color}/>)}}/>
     </Tab.Navigator>
   );
 }

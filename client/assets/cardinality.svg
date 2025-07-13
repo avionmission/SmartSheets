@@ -1,0 +1,31 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+	<title>New Project</title>
+	<style>
+		.s0 { fill: #2b4646 } 
+		.s1 { fill: #2f4f4f } 
+		.s2 { fill: #b8bfc4 } 
+		.s3 { fill: #cbd3d8 } 
+		.s4 { fill: #ba5f53 } 
+		.s5 { fill: #d26a5c } 
+		.s6 { fill: #09a284 } 
+		.s7 { fill: #00b894 } 
+	</style>
+	<g id="&lt;Group&gt;">
+		<g id="&lt;Group&gt;">
+			<path id="&lt;Path&gt;" class="s0" d="m79.4 366.3v61.1c0 25.5 75.7 46.2 169 46.2 93.4 0 169-20.7 169-46.2v-61.1z"/>
+			<path id="&lt;Path&gt;" fill-rule="evenodd" class="s1" d="m248.4 412.5c-93.4 0-169-20.7-169-46.2 0-25.5 75.6-46.2 169-46.2 93.5 0 169 20.7 169 46.2 0 25.5-75.5 46.2-169 46.2z"/>
+		</g>
+		<g id="&lt;Group&gt;">
+			<path id="&lt;Path&gt;" class="s2" d="m79.4 266.2v61.1c0 25.5 75.7 46.2 169 46.2 93.4 0 169-20.7 169-46.2v-61.1z"/>
+			<path id="&lt;Path&gt;" fill-rule="evenodd" class="s3" d="m248.4 312.4c-93.4 0-169-20.7-169-46.2 0-25.6 75.6-46.2 169-46.2 93.5 0 169 20.6 169 46.2 0 25.5-75.5 46.2-169 46.2z"/>
+		</g>
+		<g id="&lt;Group&gt;">
+			<path id="&lt;Path&gt;" class="s4" d="m79.4 166v61.1c0 25.5 75.7 46.2 169 46.2 93.4 0 169-20.7 169-46.2v-61.1z"/>
+			<path id="&lt;Path&gt;" fill-rule="evenodd" class="s5" d="m248.4 212.2c-93.4 0-169-20.6-169-46.2 0-25.5 75.6-46.2 169-46.2 93.5 0 169 20.7 169 46.2 0 25.6-75.5 46.2-169 46.2z"/>
+		</g>
+		<g id="&lt;Group&gt;">
+			<path id="&lt;Path&gt;" class="s6" d="m79.4 65.9v61.1c0 25.5 75.7 46.2 169 46.2 93.4 0 169-20.7 169-46.2v-61.1z"/>
+			<path id="&lt;Path&gt;" fill-rule="evenodd" class="s7" d="m248.4 112.1c-93.4 0-169-20.7-169-46.2 0-25.5 75.6-46.2 169-46.2 93.5 0 169 20.7 169 46.2 0 25.5-75.5 46.2-169 46.2z"/>
+		</g>
+	</g>
+</svg>
